@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About the Proposal Compliance Checker</title>
+    <meta name="description" content="How the Proposal Completeness & Compliance Checker works, what it checks, and what it refuses to assess." />
+    <link rel="stylesheet" href="assets/site.css" />
+  </head>
+  <body>
+    <main class="page">
+      <nav class="nav" aria-label="Main navigation">
+        <a class="brand" href="index.html">Proposal Compliance Checker</a>
+        <div class="nav-links"><a href="index.html">Home</a><a class="button button-primary" href="APP_URL_TO_REPLACE">Launch checker</a></div>
+      </nav>
+      <article class="article">
+        <h1>About the Proposal Completeness & Compliance Checker</h1>
+        <p>This tool is a pre-submission compliance aid for grant proposals. It compares a funder solicitation with a draft proposal and flags what appears missing, incomplete, or non-compliant.</p>
+        <p>It is designed to support a human reviewer, not replace one. It does not judge whether a proposal is persuasive, clear, strategically sound, or likely to be funded.</p>
+        <h2>How it works</h2>
+        <p>The checker uses a section-by-section architecture. First, it extracts a requirement set from the solicitation: narrative components, budget rules, eligibility criteria, page or word limits, required attachments, and biosketch requirements.</p>
+        <p>Then it reviews each proposal section in its own focused model pass against the relevant requirements. The final report aggregates those independent passes into a section-by-section table.</p>
+        <h2>What it checks</h2>
+        <ul><li>Whether each required proposal element appears to be present.</li><li>Whether stated section, page, word, format, and budget limits appear to be met.</li><li>Whether required attachments and biosketches appear to be included or need human confirmation.</li><li>The specific solicitation requirement behind every finding.</li></ul>
+        <h2>What it does not check</h2>
+        <ul><li>Argument strength.</li><li>Clarity and readability.</li><li>Persuasiveness.</li><li>Likelihood of funding.</li><li>Whether the organization should submit.</li></ul>
+        <h2>Research basis</h2>
+        <p>The architecture borrows cautiously from <a href="https://arxiv.org/abs/2603.08281">arXiv 2603.08281</a>, a March 2026 preprint that evaluated LLM-based grant proposal review across six EPSRC proposals.</p>
+        <p>Two findings inform this tool’s narrow design. Section-level review performed better than the alternatives on detection and reliability, while the persona ensemble did not justify its cost. The study also found that LLM feedback skewed toward compliance checking over holistic assessment, and clarity flaws were largely missed.</p>
+        <p>That evidence is limited. The paper is a six-proposal preprint, not peer-reviewed, and it does not validate proposal-quality judgments, submission decisions, or funding predictions.</p>
+        <div class="caveat">Architecture and scope are grounded in a single 6-proposal preprint (arXiv 2603.08281, not peer-reviewed). It checks completeness and compliance only. It does not judge clarity, argument quality, or your odds.</div>
+      </article>
+    </main>
+  </body>
+</html>
