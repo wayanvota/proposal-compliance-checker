@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Proposal Completeness & Compliance Checker</title>
+    <meta name="description" content="A pre-submission grant proposal checker that flags missing and non-compliant items against a funder solicitation." />
+    <link rel="stylesheet" href="assets/site.css" />
+  </head>
+  <body>
+    <main class="page">
+      <nav class="nav" aria-label="Main navigation">
+        <a class="brand" href="index.html">Proposal Compliance Checker</a>
+        <div class="nav-links">
+          <a href="about.html">About</a>
+          <a class="button button-primary" href="APP_URL_TO_REPLACE">Launch checker</a>
+        </div>
+      </nav>
+      <section class="hero">
+        <div>
+          <h1>A compliance pass before the human review.</h1>
+          <p>Compare a draft grant proposal against a funder solicitation, section by section. The tool flags missing and non-compliant items, with the requirement behind each finding.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="APP_URL_TO_REPLACE">Launch checker</a>
+            <a class="button button-secondary" href="about.html">Read how it works</a>
+          </div>
+        </div>
+        <aside class="panel" aria-label="Example findings">
+          <span class="label">Example report</span>
+          <h2>What it returns</h2>
+          <div class="mini-report">
+            <div class="mini-row"><div><strong>Dissemination plan</strong><span>Required by the solicitation, absent from draft narrative.</span></div><span class="chip chip-missing">MISSING</span></div>
+            <div class="mini-row"><div><strong>Budget cap</strong><span>Draft budget exceeds the stated funder limit.</span></div><span class="chip chip-non-compliant">NON-COMPLIANT</span></div>
+            <div class="mini-row"><div><strong>Attachments</strong><span>Uploaded draft may not include all separate files.</span></div><span class="chip chip-human">NEEDS HUMAN REVIEW</span></div>
+          </div>
+        </aside>
+      </section>
+      <div class="caveat">Architecture and scope are grounded in a single 6-proposal preprint (arXiv 2603.08281, not peer-reviewed). It checks completeness and compliance only. It does not judge clarity, argument quality, or your odds.</div>
+      <footer class="footer"><p>Built as a pre-submission compliance aid. The model flags and lists. The human reviewer decides.</p></footer>
+    </main>
+  </body>
+</html>
