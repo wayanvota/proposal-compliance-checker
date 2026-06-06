@@ -251,6 +251,11 @@ export function selectRequirementsForSection(
   sectionTitle: string
 ): Requirement[] {
   const title = sectionTitle.toLowerCase();
+
+  if (title === "full draft") {
+    return requirements;
+  }
+
   const matched = requirements.filter((requirement) => {
     const section = requirement.section.toLowerCase();
     return section.includes(title) || title.includes(section);
