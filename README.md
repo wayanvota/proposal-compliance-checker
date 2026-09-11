@@ -28,7 +28,7 @@ Settings:
 
 ```text
 Runtime: Node
-Build Command: npm install && npm run build
+Build Command: npm ci && npm run build
 Start Command: npm run start
 ```
 
