@@ -35,8 +35,7 @@ No credential or public service is required in CI.
 
 ## Verification record
 
-Status: local gate passed on 2026-09-11. GitHub Actions verification is pending
-the branch push.
+Status: local gate and GitHub Actions run 34664728549 passed on 2026-09-11.
 
 - Existing tests: 6 passed, including a new regression case for unmatched
   requirements in sectioned drafts.
