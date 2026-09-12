@@ -166,4 +166,48 @@ describe("proposal compliance review architecture", () => {
       requirements
     );
   });
+
+  it("reviews requirements without a matching proposal section in one full-draft pass", async () => {
+    const calls: ReviewMessage[][] = [];
+    const callModel: LlmCall = async (messages) => {
+      calls.push(messages);
+      const prompt = messages.map((message) => message.content).join("\n");
+      if (prompt.includes("Extract every compliance")) {
+        return JSON.stringify({ requirements: [
+          {
+            id: "R1",
+            section: "Project Narrative",
+            requirement: "Include goals.",
+            citation: "The narrative must include goals.",
+            category: "narrative"
+          },
+          {
+            id: "R2",
+            section: "Attachments",
+            requirement: "Attach resumes.",
+            citation: "Applicants must attach resumes.",
+            category: "attachment"
+          }
+        ] });
+      }
+      const isFullDraft = prompt.includes("Section title: Full draft");
+      return JSON.stringify({ findings: [{
+        requirementId: isFullDraft ? "R2" : "R1",
+        requirement: isFullDraft ? "Attach resumes." : "Include goals.",
+        status: isFullDraft ? "NEEDS_HUMAN_REVIEW" : "PRESENT",
+        evidence: isFullDraft ? "Attachment not visible." : "Goals are present.",
+        citedRequirement: isFullDraft ? "Applicants must attach resumes." : "The narrative must include goals."
+      }] });
+    };
+
+    const report = await reviewProposal({
+      solicitationText: "The narrative must include goals. Applicants must attach resumes.",
+      proposalText: "Project Narrative\nGoals are present.\n\nBudget\n$10,000",
+      callModel
+    });
+
+    expect(report.sectionsReviewed).toEqual(["Project Narrative", "Budget", "Full draft"]);
+    expect(report.findings.map((finding) => finding.requirementId)).toEqual(["R1", "R2"]);
+    expect(calls).toHaveLength(3);
+  });
 });
