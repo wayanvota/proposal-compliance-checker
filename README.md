@@ -39,3 +39,19 @@ OPENAI_API_KEY
 OPENAI_MODEL=gpt-4.1-mini
 NODE_VERSION=22.16.0
 ```
+
+## End-to-end verification
+
+The E2E gate builds and serves the production Next.js application, then runs
+exactly 10 user-behavior and 10 adversarial browser/API categories against the
+real review route. Only the external OpenAI service is replaced by a local,
+deterministic HTTP fixture. See [E2E-TEST-REPORT.md](E2E-TEST-REPORT.md).
+
+```bash
+npm ci
+npx playwright install chromium
+npm run test:ci
+```
+
+CI requires no OpenAI key. Live-provider checks are optional, separately
+authorized smoke tests and never replace the deterministic gate.

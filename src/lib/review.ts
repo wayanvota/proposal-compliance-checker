@@ -110,25 +110,44 @@ export async function reviewProposal({
   const requirementSet = await extractRequirements(solicitationText, callModel);
   const proposalSections = splitProposalIntoSections(proposalText);
   const findings: Finding[] = [];
+  const reviewedRequirementIds = new Set<string>();
+  const sectionsReviewed: string[] = [];
 
   for (const section of proposalSections) {
     const sectionRequirements = selectRequirementsForSection(
       requirementSet.requirements,
       section.title
     );
-    const sectionFindings = await reviewSingleSection({
-      section,
-      requirements: sectionRequirements,
+    if (sectionRequirements.length > 0) {
+      const sectionFindings = await reviewSingleSection({
+        section,
+        requirements: sectionRequirements,
+        callModel
+      });
+      findings.push(...sectionFindings);
+      sectionRequirements.forEach((requirement) => reviewedRequirementIds.add(requirement.id));
+    }
+    sectionsReviewed.push(section.title);
+  }
+
+  const remainingRequirements = requirementSet.requirements.filter(
+    (requirement) => !reviewedRequirementIds.has(requirement.id)
+  );
+  if (remainingRequirements.length > 0 && proposalSections.some((section) => section.title !== "Full draft")) {
+    const fullDraft = makeSection("Full draft", proposalText);
+    findings.push(...await reviewSingleSection({
+      section: fullDraft,
+      requirements: remainingRequirements,
       callModel
-    });
-    findings.push(...sectionFindings);
+    }));
+    sectionsReviewed.push(fullDraft.title);
   }
 
   return {
     generatedAt: new Date().toISOString(),
     caveat: PREPRINT_CAVEAT,
     notAssessed: NOT_ASSESSED,
-    sectionsReviewed: proposalSections.map((section) => section.title),
+    sectionsReviewed,
     findings
   };
 }
@@ -261,15 +280,7 @@ export function selectRequirementsForSection(
     return section.includes(title) || title.includes(section);
   });
 
-  if (matched.length > 0) {
-    return matched;
-  }
-
-  return requirements.filter((requirement) =>
-    ["eligibility", "format", "attachment", "biosketch", "budget", "other"].includes(
-      requirement.category
-    )
-  );
+  return matched;
 }
 
 export function parseJson(content: string): unknown {
